@@ -1,8 +1,8 @@
 'use strict';
 
-const GLANCES_PORT   = 61208;
+let GLANCES_PORT     = 61208;
 const NODE_EXP_PORT  = 9100;
-const ZIMAOS_PORT    = 80;
+let ZIMAOS_PORT      = 80;
 const ZIMAOS_INFO_PORT = 9527;
 
 // ── Theme ─────────────────────────────────────────────────────────────────────
@@ -603,6 +603,9 @@ async function init() {
 
   const server = servers.find(s => s.id === activeServerId) || servers[0];
   if (connName) connName.textContent = server.name;
+
+  if (server.portGlances) GLANCES_PORT = server.portGlances;
+  if (server.portZimaos)  ZIMAOS_PORT  = server.portZimaos;
 
   const ip = await resolveIp(server);
 

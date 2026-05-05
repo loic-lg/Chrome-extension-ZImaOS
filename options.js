@@ -86,12 +86,14 @@ function openForm(server = null) {
   const formCard  = document.getElementById('formCard');
   const formTitle = document.getElementById('formTitle');
 
-  document.getElementById('editId').value      = server?.id || '';
-  document.getElementById('fName').value       = server?.name || '';
-  document.getElementById('fLocalIp').value    = server?.localIp || '';
-  document.getElementById('fTailscaleIp').value= server?.tailscaleIp || '';
-  document.getElementById('fUsername').value   = server?.username || '';
-  document.getElementById('fPassword').value   = server?.password || '';
+  document.getElementById('editId').value       = server?.id || '';
+  document.getElementById('fName').value        = server?.name || '';
+  document.getElementById('fLocalIp').value     = server?.localIp || '';
+  document.getElementById('fTailscaleIp').value = server?.tailscaleIp || '';
+  document.getElementById('fUsername').value    = server?.username || '';
+  document.getElementById('fPassword').value    = server?.password || '';
+  document.getElementById('fPortGlances').value = server?.portGlances || '';
+  document.getElementById('fPortZimaos').value  = server?.portZimaos || '';
 
   formTitle.textContent = server ? 'Modifier le serveur' : 'Nouveau serveur';
   formCard.style.display = 'block';
@@ -110,16 +112,18 @@ async function saveForm() {
   const tailscaleIp = document.getElementById('fTailscaleIp').value.trim();
   const username    = document.getElementById('fUsername').value.trim();
   const password    = document.getElementById('fPassword').value;
+  const portGlances = parseInt(document.getElementById('fPortGlances').value) || null;
+  const portZimaos  = parseInt(document.getElementById('fPortZimaos').value) || null;
 
   let { servers, activeServerId } = await getState();
 
   if (id) {
     // Edit
     const idx = servers.findIndex(s => s.id === id);
-    if (idx >= 0) servers[idx] = { id, name, localIp, tailscaleIp, username, password };
+    if (idx >= 0) servers[idx] = { id, name, localIp, tailscaleIp, username, password, portGlances, portZimaos };
   } else {
     // Add
-    const newServer = { id: uuid(), name, localIp, tailscaleIp, username, password };
+    const newServer = { id: uuid(), name, localIp, tailscaleIp, username, password, portGlances, portZimaos };
     servers.push(newServer);
     if (!activeServerId) activeServerId = newServer.id;
   }
