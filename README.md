@@ -64,15 +64,17 @@ Télécharge et décompresse le fichier `.zip` dans un dossier sur ton ordinateu
 
 Au premier lancement, clique sur l'icône de l'extension puis sur **⚙** pour ouvrir les paramètres.
 
-| Champ | Description                                            |
-|-------|--------------------------------------------------------|
-| Nom | Nom affiché dans le header (ex: "Mon NAS")             |
-| IP locale | IP de ton NAS sur le réseau local (ex: `192.168.x.xx`) |
-| IP Tailscale | IP Tailscale pour l'accès à distance (ex: `100.x.x.x`) |
-| Utilisateur | Identifiant ZimaOS                                     |
-| Mot de passe | Mot de passe ZimaOS                                    |
+| Champ | Défaut | Description |
+|-------|--------|-------------|
+| Nom | — | Nom affiché dans le header (ex: "Mon NAS") |
+| IP locale | — | IP de ton NAS sur le réseau local (ex: `192.168.1.x`) |
+| IP Tailscale | — | Fallback pour l'accès à distance (ex: `100.x.x.x`) |
+| Utilisateur | — | Identifiant ZimaOS (pour charger les apps) |
+| Mot de passe | — | Mot de passe ZimaOS |
+| Port Glances | `61208` | À changer si Glances tourne sur un autre port |
+| Port ZimaOS | `80` | À changer si l'interface ZimaOS est sur un autre port |
 
-L'extension essaie d'abord l'IP locale, puis Tailscale en fallback si elle est injoignable.
+L'extension essaie d'abord l'IP locale, puis Tailscale en fallback si elle est injoignable. Si Glances n'est pas installé, les métriques sont masquées mais les applications restent accessibles.
 
 ---
 
