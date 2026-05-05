@@ -4,7 +4,7 @@ Extension Chrome pour surveiller ton serveur ZimaOS depuis la barre de navigatio
 
 ![Manifest V3](https://img.shields.io/badge/Manifest-V3-blue) ![Chrome](https://img.shields.io/badge/Chrome-Extension-green)
 
-<img src="screenshots/preview.png" width="220"> <img src="screenshots/config.png" width="220">
+<img src="screenshots/preview.png" width="220">
 
 ---
 
@@ -59,6 +59,8 @@ Télécharge et décompresse le fichier `.zip` dans un dossier sur ton ordinateu
 ---
 
 ## Configuration
+
+<img src="screenshots/config.png" width="260">
 
 Au premier lancement, clique sur l'icône de l'extension puis sur **⚙** pour ouvrir les paramètres.
 
