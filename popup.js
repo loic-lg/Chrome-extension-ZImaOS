@@ -224,23 +224,27 @@ async function fetchNodeExporter(ip) {
 }
 
 async function fetchApps(ip, token) {
-  try {
-    const headers = token ? { Authorization: token } : {};
-    const res = await fetchTimeout(
-      `http://${ip}:${ZIMAOS_PORT}/v2/app_management/web/appgrid`,
-      6000, { headers }
-    );
-    const json = await res.json();
-    return Array.isArray(json.data) ? json.data : [];
-  } catch {
-    return [];
+  const headers = token ? { Authorization: token } : {};
+  const endpoints = [
+    `http://${ip}:${ZIMAOS_PORT}/v2/app_management/web/appgrid`,
+    `http://${ip}:${ZIMAOS_PORT}/v1/app_management/web/appgrid`,
+    `http://${ip}:${ZIMAOS_PORT}/v1/apps/appgrid`,
+  ];
+  for (const url of endpoints) {
+    try {
+      const res = await fetchTimeout(url, 6000, { headers });
+      if (!res.ok) continue;
+      const json = await res.json();
+      if (Array.isArray(json.data) && json.data.length) return json.data;
+    } catch { /* try next */ }
   }
+  return [];
 }
 
 async function fetchZimaInfo(ip) {
   try {
     const res = await fetchTimeout(`http://${ip}:${ZIMAOS_INFO_PORT}/`, 2000);
-    return res.json();
+    return await res.json();
   } catch {
     return null;
   }
