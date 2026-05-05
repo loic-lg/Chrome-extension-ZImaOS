@@ -69,19 +69,28 @@ async function fetchTimeout(url, ms = 3000, opts = {}) {
 }
 
 let GLANCES_API = 'api/4';
+let GLANCES_AVAILABLE = false;
 
 async function resolveIp(server) {
   for (const ip of [server.localIp, server.tailscaleIp].filter(Boolean)) {
+    // Essai Glances (stats)
     for (const api of ['api/4', 'api/3']) {
       try {
         const res = await fetchTimeout(`http://${ip}:${GLANCES_PORT}/${api}/cpu`, 2500);
         const data = await res.json();
         if (data && !data.detail) {
           GLANCES_API = api;
+          GLANCES_AVAILABLE = true;
           return ip;
         }
       } catch { /* try next */ }
     }
+    // Fallback : ZimaOS API directement (sans Glances)
+    try {
+      await fetchTimeout(`http://${ip}:${ZIMAOS_PORT}/v2/app_management/web/appgrid`, 2500);
+      GLANCES_AVAILABLE = false;
+      return ip;
+    } catch { /* try next */ }
   }
   return null;
 }
@@ -613,13 +622,8 @@ async function init() {
   });
 
   // Fetch everything in parallel
-  const [info, cpu, mem, nodeMetrics, glancesFs, netData, token] = await Promise.all([
+  const [info, token] = await Promise.all([
     fetchZimaInfo(ip),
-    fetchGlances(ip, 'cpu'),
-    fetchGlances(ip, 'mem'),
-    fetchNodeExporter(ip),
-    fetchGlances(ip, 'fs'),
-    fetchGlances(ip, 'network'),
     getAuthToken(server, ip),
   ]);
 
@@ -627,38 +631,47 @@ async function init() {
     document.getElementById('osVersion').textContent = info.os_version;
   }
 
-  renderStats(cpu, mem);
-
-  let disks = parseDisks(nodeMetrics);
-  if (!disks.length) disks = parseDisksFromGlances(glancesFs);
-  renderDisks(disks);
-
-  renderNetwork(netData);
-  setupGaugeTooltip(ip);
-
-  if (!cpu && !mem && !disks.length) {
+  if (!GLANCES_AVAILABLE) {
     document.getElementById('statsSection').style.display = 'none';
-  }
-
-  const appsData = await fetchApps(ip, token);
-  const apps = parseApps(appsData, ip);
-  renderApps(apps);
-
-  // Rafraîchissement automatique toutes les 5s
-  setInterval(async () => {
-    const [cpu2, mem2, nodeMetrics2, glancesFs2, netData2] = await Promise.all([
+  } else {
+    const [cpu, mem, nodeMetrics, glancesFs, netData] = await Promise.all([
       fetchGlances(ip, 'cpu'),
       fetchGlances(ip, 'mem'),
       fetchNodeExporter(ip),
       fetchGlances(ip, 'fs'),
       fetchGlances(ip, 'network'),
     ]);
-    renderStats(cpu2, mem2);
-    let d = parseDisks(nodeMetrics2);
-    if (!d.length) d = parseDisksFromGlances(glancesFs2);
-    renderDisks(d);
-    renderNetwork(netData2);
-  }, 5000);
+
+    renderStats(cpu, mem);
+    let disks = parseDisks(nodeMetrics);
+    if (!disks.length) disks = parseDisksFromGlances(glancesFs);
+    renderDisks(disks);
+    renderNetwork(netData);
+    setupGaugeTooltip(ip);
+
+    if (!cpu && !mem && !disks.length) {
+      document.getElementById('statsSection').style.display = 'none';
+    }
+
+    setInterval(async () => {
+      const [cpu2, mem2, nodeMetrics2, glancesFs2, netData2] = await Promise.all([
+        fetchGlances(ip, 'cpu'),
+        fetchGlances(ip, 'mem'),
+        fetchNodeExporter(ip),
+        fetchGlances(ip, 'fs'),
+        fetchGlances(ip, 'network'),
+      ]);
+      renderStats(cpu2, mem2);
+      let d = parseDisks(nodeMetrics2);
+      if (!d.length) d = parseDisksFromGlances(glancesFs2);
+      renderDisks(d);
+      renderNetwork(netData2);
+    }, 5000);
+  }
+
+  const appsData = await fetchApps(ip, token);
+  const apps = parseApps(appsData, ip);
+  renderApps(apps);
 }
 
 init();
