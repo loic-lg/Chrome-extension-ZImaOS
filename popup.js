@@ -68,12 +68,20 @@ async function fetchTimeout(url, ms = 3000, opts = {}) {
   }
 }
 
+let GLANCES_API = 'api/4';
+
 async function resolveIp(server) {
   for (const ip of [server.localIp, server.tailscaleIp].filter(Boolean)) {
-    try {
-      await fetchTimeout(`http://${ip}:${GLANCES_PORT}/api/4/cpu`, 2500);
-      return ip;
-    } catch { /* try next */ }
+    for (const api of ['api/4', 'api/3']) {
+      try {
+        const res = await fetchTimeout(`http://${ip}:${GLANCES_PORT}/${api}/cpu`, 2500);
+        const data = await res.json();
+        if (data && !data.detail) {
+          GLANCES_API = api;
+          return ip;
+        }
+      } catch { /* try next */ }
+    }
   }
   return null;
 }
@@ -111,7 +119,7 @@ async function getAuthToken(server, ip) {
 
 async function fetchGlances(ip, path) {
   try {
-    const res = await fetchTimeout(`http://${ip}:${GLANCES_PORT}/api/4/${path}`, 3000);
+    const res = await fetchTimeout(`http://${ip}:${GLANCES_PORT}/${GLANCES_API}/${path}`, 3000);
     return res.json();
   } catch {
     return null;
