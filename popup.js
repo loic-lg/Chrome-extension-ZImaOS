@@ -223,19 +223,45 @@ async function fetchNodeExporter(ip) {
   }
 }
 
-async function fetchApps(ip, token) {
+const APPS_ENDPOINTS = [
+  (ip) => `http://${ip}:${ZIMAOS_PORT}/v2/app_management/web/appgrid`,
+  (ip) => `http://${ip}:${ZIMAOS_PORT}/v1/app_management/web/appgrid`,
+  (ip) => `http://${ip}:${ZIMAOS_PORT}/v1/apps/appgrid`,
+  (ip) => `http://${ip}:${ZIMAOS_PORT}/v1/apps/`,
+  (ip) => `http://${ip}:${ZIMAOS_PORT}/casaos/app-management/compose-apps`,
+  (ip) => `http://${ip}:${ZIMAOS_PORT}/app-management/compose-apps`,
+];
+
+function extractApps(json) {
+  if (Array.isArray(json))      return json;
+  if (Array.isArray(json.data)) return json.data;
+  return null;
+}
+
+async function fetchApps(ip, token, serverId) {
   const headers = token ? { Authorization: token } : {};
-  const endpoints = [
-    `http://${ip}:${ZIMAOS_PORT}/v2/app_management/web/appgrid`,
-    `http://${ip}:${ZIMAOS_PORT}/v1/app_management/web/appgrid`,
-    `http://${ip}:${ZIMAOS_PORT}/v1/apps/appgrid`,
-  ];
-  for (const url of endpoints) {
+
+  // Récupérer l'endpoint mis en cache pour ce serveur
+  const cacheKey = `appsEndpoint_${serverId}`;
+  const cached = await new Promise(r => chrome.storage.local.get({ [cacheKey]: null }, d => r(d[cacheKey])));
+
+  // Construire la liste : endpoint caché en premier, puis les autres
+  const orderedFns = cached
+    ? [() => cached, ...APPS_ENDPOINTS.filter(fn => fn(ip) !== cached)]
+    : APPS_ENDPOINTS;
+
+  for (const fn of orderedFns) {
+    const url = typeof fn === 'function' ? fn(ip) : fn;
     try {
       const res = await fetchTimeout(url, 6000, { headers });
       if (!res.ok) continue;
       const json = await res.json();
-      if (Array.isArray(json.data) && json.data.length) return json.data;
+      const apps = extractApps(json);
+      if (apps && apps.length) {
+        // Mémoriser l'endpoint qui fonctionne
+        if (url !== cached) chrome.storage.local.set({ [cacheKey]: url });
+        return apps;
+      }
     } catch { /* try next */ }
   }
   return [];
@@ -676,7 +702,7 @@ async function init() {
     }, 5000);
   }
 
-  const appsData = await fetchApps(ip, token);
+  const appsData = await fetchApps(ip, token, server.id);
   const apps = parseApps(appsData, ip);
   renderApps(apps);
 }
