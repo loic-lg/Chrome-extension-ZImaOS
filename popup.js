@@ -34,19 +34,22 @@ function getServers() {
   });
 }
 
+const _sessionStore = chrome.storage.session ?? chrome.storage.local;
+
 function getToken(serverId) {
   return new Promise(resolve => {
-    chrome.storage.session.get({ tokens: {} }, data => {
-      const t = data.tokens[serverId];
+    _sessionStore.get({ tokens: {} }, data => {
+      const t = data.tokens?.[serverId];
       resolve(t && t.expires > Date.now() ? t.token : null);
     });
   });
 }
 
 function saveToken(serverId, token) {
-  chrome.storage.session.get({ tokens: {} }, data => {
-    data.tokens[serverId] = { token, expires: Date.now() + 8 * 3600 * 1000 };
-    chrome.storage.session.set({ tokens: data.tokens });
+  _sessionStore.get({ tokens: {} }, data => {
+    const tokens = data.tokens ?? {};
+    tokens[serverId] = { token, expires: Date.now() + 8 * 3600 * 1000 };
+    _sessionStore.set({ tokens });
   });
 }
 
