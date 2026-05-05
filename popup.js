@@ -224,17 +224,19 @@ async function fetchNodeExporter(ip) {
 }
 
 const APPS_ENDPOINTS = [
-  (ip) => `http://${ip}:${ZIMAOS_PORT}/v2/app_management/web/appgrid`,
-  (ip) => `http://${ip}:${ZIMAOS_PORT}/v1/app_management/web/appgrid`,
-  (ip) => `http://${ip}:${ZIMAOS_PORT}/v1/apps/appgrid`,
-  (ip) => `http://${ip}:${ZIMAOS_PORT}/v1/apps/`,
-  (ip) => `http://${ip}:${ZIMAOS_PORT}/casaos/app-management/compose-apps`,
-  (ip) => `http://${ip}:${ZIMAOS_PORT}/app-management/compose-apps`,
+  (ip) => `http://${ip}:${ZIMAOS_PORT}/v2/app_management/web/appgrid`,   // ZimaOS récent
+  (ip) => `http://${ip}:${ZIMAOS_PORT}/v2/app_management/compose`,       // ZimaOS officiel
+  (ip) => `http://${ip}:${ZIMAOS_PORT}/v1/app_management/web/appgrid`,   // ZimaOS v1
+  (ip) => `http://${ip}:${ZIMAOS_PORT}/v1/app_management/compose`,       // CasaOS récent
+  (ip) => `http://${ip}:${ZIMAOS_PORT}/v1/apps/appgrid`,                 // CasaOS ancien
+  (ip) => `http://${ip}:${ZIMAOS_PORT}/v1/apps/`,                        // CasaOS très ancien
 ];
 
 function extractApps(json) {
   if (Array.isArray(json))      return json;
   if (Array.isArray(json.data)) return json.data;
+  // format compose : { data: { installed: [...] } }
+  if (Array.isArray(json.data?.installed)) return json.data.installed;
   return null;
 }
 
