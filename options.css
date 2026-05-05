@@ -1,0 +1,101 @@
+:root {
+  --bg:      #0f172a;
+  --surface: #1e293b;
+  --border:  #2d3f5a;
+  --accent:  #3b82f6;
+  --red:     #ef4444;
+  --text:    #f1f5f9;
+  --muted:   #94a3b8;
+  --green:   #22c55e;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg); color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 13px; min-height: 100vh;
+}
+.container { max-width: 500px; margin: 0 auto; padding: 28px 20px; }
+
+h1 { font-size: 15px; font-weight: 700; color: var(--muted); margin-bottom: 24px; }
+h2 { font-size: 13px; font-weight: 600; color: var(--text); }
+h3 { font-size: 13px; font-weight: 600; margin-bottom: 16px; }
+
+.servers-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 12px;
+}
+.btn-add {
+  background: var(--accent); color: #fff; border: none;
+  border-radius: 6px; padding: 6px 14px; font-size: 12px;
+  font-weight: 600; cursor: pointer; transition: background 0.15s;
+}
+.btn-add:hover { background: #2563eb; }
+
+/* Server cards */
+.server-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 14px 16px; margin-bottom: 10px;
+  display: flex; align-items: center; gap: 12px;
+}
+.server-card-info { flex: 1; min-width: 0; }
+.server-name { font-weight: 600; font-size: 14px; margin-bottom: 3px; }
+.server-details { font-size: 11px; color: var(--muted); }
+.server-badge {
+  font-size: 10px; background: var(--accent);
+  color: #fff; padding: 1px 6px; border-radius: 4px;
+  font-weight: 600; margin-left: 8px;
+}
+.server-actions { display: flex; gap: 6px; }
+.btn-edit, .btn-delete {
+  border: 1px solid var(--border); border-radius: 5px;
+  padding: 4px 10px; font-size: 12px; cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-edit { background: none; color: var(--text); }
+.btn-edit:hover { background: var(--border); }
+.btn-delete { background: none; color: var(--red); border-color: var(--red); }
+.btn-delete:hover { background: var(--red); color: #fff; }
+.btn-set-active {
+  background: none; border: 1px solid var(--accent);
+  color: var(--accent); border-radius: 5px;
+  padding: 4px 10px; font-size: 12px; cursor: pointer;
+}
+.btn-set-active:hover { background: var(--accent); color: #fff; }
+
+.empty-state {
+  text-align: center; padding: 30px; color: var(--muted);
+  border: 1px dashed var(--border); border-radius: 8px;
+}
+
+/* Form */
+.form-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 20px; margin-top: 16px;
+}
+.field { margin-bottom: 14px; }
+.field:last-of-type { margin-bottom: 0; }
+label { display: block; font-weight: 500; margin-bottom: 5px; color: var(--text); }
+.optional { font-weight: 400; color: var(--muted); }
+input[type="text"], input[type="password"] {
+  width: 100%; background: var(--bg); border: 1px solid var(--border);
+  border-radius: 6px; padding: 8px 12px; color: var(--text);
+  font-size: 13px; outline: none; transition: border-color 0.15s;
+  font-family: inherit;
+}
+input:focus { border-color: var(--accent); }
+.hint { display: block; font-size: 11px; color: var(--muted); margin-top: 4px; }
+.divider { height: 1px; background: var(--border); margin: 16px 0; }
+
+.form-actions { display: flex; gap: 10px; margin-top: 18px; align-items: center; }
+.btn-save {
+  background: var(--accent); color: #fff; border: none;
+  border-radius: 6px; padding: 8px 20px; font-size: 13px;
+  font-weight: 600; cursor: pointer;
+}
+.btn-save:hover { background: #2563eb; }
+.btn-cancel {
+  background: none; border: 1px solid var(--border);
+  color: var(--muted); border-radius: 6px; padding: 8px 16px;
+  font-size: 13px; cursor: pointer;
+}
+.btn-cancel:hover { background: var(--border); color: var(--text); }

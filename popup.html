@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+<div class="container">
+
+  <!-- Header (Zima Nodes exact) -->
+  <div class="header">
+    <div class="logo">
+      <svg class="logo-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+        <rect x="1" y="2" width="18" height="5" rx="1.5"/>
+        <rect x="1" y="9" width="18" height="5" rx="1.5"/>
+        <rect x="1" y="16" width="18" height="3.2" rx="1.5"/>
+        <circle cx="16.5" cy="4.5" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="16.5" cy="11.5" r="1" fill="currentColor" stroke="none"/>
+      </svg>
+      <select class="nas-select" id="nasSwitcher"></select>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px">
+      <button class="theme-toggle" id="themeToggle" title="Thème clair / sombre">
+        <span class="theme-toggle-icon">☀</span>
+        <span class="theme-toggle-track"><span class="theme-toggle-thumb"></span></span>
+      </button>
+      <button class="settings-btn" id="btnRefresh" title="Actualiser">↺</button>
+      <button class="settings-btn" id="btnSettings" title="Paramètres">⚙</button>
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <div class="main-content">
+
+    <!-- Connection status card (Zima Nodes exact) -->
+    <div class="connection-status" id="btnOpen" style="cursor:pointer" title="Ouvrir ZimaOS">
+      <div style="display:flex;align-items:center;gap:10px;min-width:0;">
+        <div class="device-icon-box">
+          <svg viewBox="0 0 20 20" fill="none" stroke="#9ca3af" stroke-width="1.5" width="16" height="16">
+            <rect x="2" y="3" width="16" height="11" rx="1.5"/><path d="M6 17h8M10 14v3"/>
+          </svg>
+        </div>
+        <div style="min-width:0;">
+          <div class="conn-name" id="connName">—</div>
+          <div class="host-info" id="footerIp">Connexion…</div>
+          <div class="os-version" id="osVersion"></div>
+        </div>
+      </div>
+      <div class="conn-right">
+        <div class="status-indicator" id="statusIndicator">
+          <span class="status-dot" id="statusDot"></span>
+          <span id="statusText">—</span>
+        </div>
+        <div class="conn-net" id="connNet" style="display:none">
+          <span class="conn-net-item" id="connNetDownWrap"><span class="net-arrow down">↓</span><span id="connNetDown">—</span></span>
+          <span class="conn-net-item" id="connNetUpWrap"><span class="net-arrow up">↑</span><span id="connNetUp">—</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats card -->
+    <section class="stats-section" id="statsSection">
+      <div class="gauges-row">
+        <div class="gauge-wrap" id="cpuWrap">
+          <svg class="gauge-svg" viewBox="0 0 42 42">
+            <circle class="gauge-bg" cx="21" cy="21" r="15.915"/>
+            <circle class="gauge-fill" id="cpuFill" cx="21" cy="21" r="15.915"/>
+            <text class="gauge-pct" id="cpuPct" x="21" y="20.5">—</text>
+            <text class="gauge-lbl" x="21" y="29.5">CPU</text>
+          </svg>
+        </div>
+        <div class="gauge-wrap" id="ramWrap">
+          <svg class="gauge-svg" viewBox="0 0 42 42">
+            <circle class="gauge-bg" cx="21" cy="21" r="15.915"/>
+            <circle class="gauge-fill gauge-fill--purple" id="ramFill" cx="21" cy="21" r="15.915"/>
+            <text class="gauge-pct" id="ramPct" x="21" y="20.5">—</text>
+            <text class="gauge-lbl" x="21" y="29.5">RAM</text>
+          </svg>
+          <div class="gauge-sub" id="ramSub"></div>
+        </div>
+        <div class="stats-divider"></div>
+        <div class="disk-wrap" id="disk0Wrap">
+          <svg class="gauge-svg" viewBox="0 0 42 42">
+            <circle class="gauge-bg" cx="21" cy="21" r="15.915"/>
+            <circle class="gauge-fill gauge-fill--orange" id="disk0Fill" cx="21" cy="21" r="15.915"/>
+            <text class="gauge-pct" id="disk0Pct" x="21" y="20.5">—</text>
+            <text class="gauge-lbl" id="disk0Lbl" x="21" y="29.5">—</text>
+          </svg>
+          <div class="gauge-sub" id="disk0Sub"></div>
+        </div>
+        <div class="disk-wrap" id="disk1Wrap">
+          <svg class="gauge-svg" viewBox="0 0 42 42">
+            <circle class="gauge-bg" cx="21" cy="21" r="15.915"/>
+            <circle class="gauge-fill gauge-fill--green" id="disk1Fill" cx="21" cy="21" r="15.915"/>
+            <text class="gauge-pct" id="disk1Pct" x="21" y="20.5">—</text>
+            <text class="gauge-lbl" id="disk1Lbl" x="21" y="29.5">—</text>
+          </svg>
+          <div class="gauge-sub" id="disk1Sub"></div>
+        </div>
+      </div>
+      <div id="disksRow" style="display:none"></div>
+
+    </section>
+
+    <!-- Apps section (Zima Nodes exact) -->
+    <div class="apps-section">
+      <div class="apps-header-row">
+        <h3 class="app-section-title">Applications</h3>
+        <span class="apps-count" id="appsCount"></span>
+      </div>
+      <div class="apps-list" id="appsList">
+        <div class="placeholder">
+          <div class="placeholder-card"></div>
+          <div class="placeholder-card"></div>
+          <div class="placeholder-card"></div>
+          <div class="placeholder-card"></div>
+          <div class="placeholder-card"></div>
+          <div class="placeholder-card"></div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+<div class="gauge-tooltip" id="gaugeTooltip"></div>
+<script src="popup.js"></script>
+</body>
+</html>

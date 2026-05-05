@@ -1,0 +1,621 @@
+/* Zima Nodes UI — couleurs et layout copiés exactement */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+::-webkit-scrollbar { display: none; }
+* { scrollbar-width: none; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  width: 380px;
+  background: #f8fafc;
+  color: #374151;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Header (Zima Nodes exact) ── */
+.header {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: white;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-icon {
+  width: 24px;
+  height: 24px;
+  color: white;
+  flex-shrink: 0;
+}
+
+.nas-select {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  max-width: 190px;
+  font-family: inherit;
+}
+.nas-select option { background: #1e40af; color: white; }
+
+.settings-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  padding: 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  transition: background-color 0.2s;
+}
+.settings-btn:hover { background: rgba(255, 255, 255, 0.3); }
+
+/* ── Main content (Zima Nodes exact) ── */
+.main-content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── Connection status card (Zima Nodes exact) ── */
+.connection-status {
+  background: white;
+  border-radius: 8px;
+  padding: 8px 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.connection-status:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+.device-icon-box {
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  background: #f3f4f6;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.conn-name {
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: #111827;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
+}
+
+.host-info {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.os-version {
+  font-size: 0.7rem;
+  color: #9ca3af;
+}
+
+.conn-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.conn-net {
+  display: flex;
+  gap: 8px;
+}
+
+.conn-net-item {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.status-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #d1d5db;
+  flex-shrink: 0;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+.status-dot.online  { background: #10b981; box-shadow: 0 0 5px #10b981; }
+.status-dot.offline { background: #ef4444; box-shadow: 0 0 5px #ef4444; }
+
+/* ── Quick access (Zima Nodes exact) ── */
+.quick-access { display: flex; }
+
+.quick-btn {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: 500;
+  font-family: inherit;
+}
+.quick-btn.primary {
+  background: linear-gradient(135deg, #0057ff, #2563eb);
+  color: white;
+}
+.quick-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* ── Stats card ── */
+.stats-section {
+  background: white;
+  border-radius: 8px;
+  padding: 12px 8px 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.gauges-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 4px;
+}
+
+.stats-divider {
+  width: 1px;
+  background: #e5e7eb;
+  align-self: stretch;
+  margin: 4px 6px;
+  flex-shrink: 0;
+}
+
+.gauge-wrap, .disk-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  flex: 1;
+}
+
+.gauge-svg { width: 68px; height: 68px; }
+
+.gauge-bg { fill: none; stroke: #e5e7eb; stroke-width: 4; }
+
+.gauge-fill {
+  fill: none;
+  stroke: #2563eb;
+  stroke-width: 4;
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: center;
+  transition: stroke-dasharray 0.6s ease;
+}
+.gauge-fill--purple { stroke: #8b5cf6; }
+.gauge-fill--orange { stroke: #f59e0b; }
+.gauge-fill--green  { stroke: #10b981; }
+.gauge-fill.warn { stroke: #f59e0b; }
+.gauge-fill.crit { stroke: #ef4444; }
+
+.gauge-pct {
+  fill: #111827;
+  font-size: 8px;
+  font-weight: 700;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+.gauge-lbl {
+  fill: #6b7280;
+  font-size: 5px;
+  text-anchor: middle;
+}
+.gauge-sub {
+  font-size: 9px;
+  color: #6b7280;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* ── Network row ── */
+.net-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #e5e7eb;
+}
+.net-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.net-arrow {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
+}
+.net-arrow.down { color: #2563eb; }
+.net-arrow.up   { color: #10b981; }
+.net-val  { font-size: 12px; font-weight: 600; color: #111827; }
+.net-lbl  { font-size: 10px; color: #6b7280; }
+.net-sep  { width: 1px; height: 28px; background: #e5e7eb; }
+
+[data-theme="dark"] .net-row { border-top-color: #374151; }
+[data-theme="dark"] .net-val { color: #e5e7eb; }
+[data-theme="dark"] .net-sep { background: #374151; }
+
+/* ── Apps section (Zima Nodes exact) ── */
+.apps-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.apps-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.app-section-title {
+  color: #374151;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.apps-count {
+  font-size: 11px;
+  color: #6b7280;
+  background: #f3f4f6;
+  padding: 1px 8px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+}
+
+/* ── Apps grid (Zima Nodes exact) ── */
+.apps-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  overflow-y: auto;
+  max-height: 264px;
+}
+.apps-list::-webkit-scrollbar { display: none; }
+
+/* Favorite star button */
+.fav-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 11px;
+  color: #d1d5db;
+  padding: 0;
+  line-height: 1;
+  transition: color 0.15s, transform 0.15s;
+  z-index: 1;
+}
+.fav-btn:hover { color: #f59e0b; transform: scale(1.2); }
+.fav-btn.fav-on { color: #f59e0b; }
+
+[data-theme="dark"] .fav-btn { color: #4b5563; }
+[data-theme="dark"] .fav-btn:hover { color: #f59e0b; }
+[data-theme="dark"] .fav-btn.fav-on { color: #f59e0b; }
+
+/* App card (Zima Nodes .app-item exact) */
+.app-card {
+  position: relative;
+  background: white;
+  border-radius: 8px;
+  padding: 12px 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 0;
+}
+.app-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.app-card-icon {
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+}
+.app-card-icon img { width: 36px; height: 36px; object-fit: contain; display: block; }
+
+.app-card-name {
+  font-size: 0.75rem;
+  color: #374151;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  line-height: 1.2;
+}
+
+.app-status-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.app-status-dot.running { background: #10b981; }
+.app-status-dot.stopped { background: #d1d5db; }
+
+.app-stopped { opacity: 0.4; }
+.app-stopped .app-card-icon img { filter: grayscale(1); }
+
+/* ── Placeholder shimmer (light theme) ── */
+.placeholder { display: contents; }
+
+.placeholder-card {
+  height: 82px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.07);
+  background: linear-gradient(90deg, #f3f4f6 25%, #e9ecef 50%, #f3f4f6 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── Theme toggle (header) ── */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 2px;
+}
+
+.theme-toggle-icon {
+  font-size: 11px;
+  color: rgba(255,255,255,0.7);
+  line-height: 1;
+}
+
+.theme-toggle-track {
+  width: 30px;
+  height: 16px;
+  background: rgba(255,255,255,0.25);
+  border-radius: 8px;
+  position: relative;
+  transition: background 0.25s;
+  flex-shrink: 0;
+}
+
+.theme-toggle-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.25s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.theme-toggle.dark .theme-toggle-track { background: rgba(255,255,255,0.4); }
+.theme-toggle.dark .theme-toggle-thumb { transform: translateX(14px); }
+.theme-toggle.dark .theme-toggle-icon { color: rgba(255,255,255,0.4); }
+
+/* ── Gauge tooltip ── */
+.gauge-tooltip {
+  display: none;
+  position: fixed;
+  z-index: 100;
+  background: #1e293b;
+  color: #e5e7eb;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 11px;
+  line-height: 1.7;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  pointer-events: none;
+  min-width: 160px;
+  max-width: 200px;
+}
+.gauge-tooltip.visible { display: block; }
+
+.tooltip-title {
+  font-size: 10px;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.tooltip-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.tooltip-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px;
+}
+
+.tooltip-val {
+  font-weight: 600;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+/* ── Error state ── */
+.error-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 24px 16px;
+  color: #6b7280;
+}
+.error-state .icon { font-size: 28px; margin-bottom: 8px; }
+.error-state p { font-size: 13px; color: #374151; margin-bottom: 4px; }
+.error-state small { font-size: 11px; }
+.error-state .btn-settings-link {
+  display: inline-block; margin-top: 10px;
+  padding: 6px 14px;
+  background: linear-gradient(135deg, #0057ff, #2563eb);
+  color: #fff;
+  border-radius: 6px; font-size: 12px; cursor: pointer; border: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   DARK THEME — couleurs Zima Nodes exactes
+   ══════════════════════════════════════════════════════════════ */
+
+[data-theme="dark"] body {
+  background: #18181b;
+  color: #e5e7eb;
+}
+
+/* Header : dark slate gradient (Zima Nodes exact) */
+[data-theme="dark"] .header {
+  background: linear-gradient(135deg, #1e293b, #334155);
+}
+
+/* NAS select on dark header */
+[data-theme="dark"] .nas-select { color: #e5e7eb; }
+[data-theme="dark"] .nas-select option { background: #1e293b; }
+
+/* Cards → #23232a (Zima Nodes exact) */
+[data-theme="dark"] .connection-status,
+[data-theme="dark"] .stats-section {
+  background: #23232a;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+[data-theme="dark"] .connection-status:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .device-icon-box {
+  background: #2d2d36;
+}
+
+[data-theme="dark"] .conn-name { color: #fff; }
+[data-theme="dark"] .host-info { color: #9ca3af; }
+[data-theme="dark"] .os-version { color: #6b7280; }
+[data-theme="dark"] .status-indicator { color: #9ca3af; }
+[data-theme="dark"] .conn-net-item { color: #e5e7eb; }
+
+/* Quick access button — garde le bleu en dark */
+[data-theme="dark"] .quick-btn:not(.primary) {
+  background: #23232a;
+  color: #e5e7eb;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Stats gauges */
+[data-theme="dark"] .gauge-bg { stroke: #374151; }
+[data-theme="dark"] .gauge-pct { fill: #e5e7eb; }
+[data-theme="dark"] .gauge-lbl { fill: #9ca3af; }
+[data-theme="dark"] .gauge-sub { color: #9ca3af; }
+[data-theme="dark"] .stats-divider { background: #374151; }
+
+/* Apps section */
+[data-theme="dark"] .app-section-title { color: #e5e7eb; }
+[data-theme="dark"] .apps-count {
+  color: #9ca3af;
+  background: #2d2d36;
+  border-color: #374151;
+}
+
+/* App cards (Zima Nodes exact) */
+[data-theme="dark"] .app-card {
+  background: #23232a;
+  border: 1px solid #2d2d36;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  color: #e5e7eb;
+}
+[data-theme="dark"] .app-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  border-color: #4b5563;
+}
+[data-theme="dark"] .app-card-name { color: #fff; }
+[data-theme="dark"] .app-status-dot.stopped { background: #374151; }
+
+/* Placeholder shimmer */
+[data-theme="dark"] .placeholder-card {
+  background: linear-gradient(90deg, #23232a 25%, #2d2d36 50%, #23232a 75%);
+  background-size: 200% 100%;
+  box-shadow: none;
+}
+
+/* Theme select */
+[data-theme="dark"] .theme-select {
+  background: #23232a;
+  border-color: #374151;
+  color: #9ca3af;
+}
+[data-theme="dark"] .theme-select option { background: #18181b; }
+
+/* Error state */
+[data-theme="dark"] .error-state { color: #9ca3af; }
+[data-theme="dark"] .error-state p { color: #e5e7eb; }

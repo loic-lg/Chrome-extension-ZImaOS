@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+<div class="container">
+  <h1>ZimaOS Pocket Monitor</h1>
+
+  <div class="servers-header">
+    <h2>Mes serveurs</h2>
+    <button class="btn-add" id="btnAdd">+ Ajouter</button>
+  </div>
+
+  <div id="serversList"></div>
+
+  <!-- Formulaire (caché par défaut) -->
+  <div class="form-card" id="formCard" style="display:none">
+    <h3 id="formTitle">Nouveau serveur</h3>
+    <input type="hidden" id="editId">
+
+    <div class="field">
+      <label>Nom affiché</label>
+      <input type="text" id="fName" placeholder="Mon NAS">
+    </div>
+    <div class="field">
+      <label>IP locale</label>
+      <input type="text" id="fLocalIp" placeholder="192.168.1.35" spellcheck="false">
+      <span class="hint">Adresse sur votre réseau local</span>
+    </div>
+    <div class="field">
+      <label>IP Tailscale <span class="optional">(optionnel)</span></label>
+      <input type="text" id="fTailscaleIp" placeholder="100.x.x.x" spellcheck="false">
+      <span class="hint">Fallback hors réseau local</span>
+    </div>
+    <div class="divider"></div>
+    <div class="field">
+      <label>Identifiant ZimaOS <span class="optional">(pour les apps)</span></label>
+      <input type="text" id="fUsername" placeholder="mon-utilisateur" autocomplete="username" spellcheck="false">
+    </div>
+    <div class="field">
+      <label>Mot de passe</label>
+      <input type="password" id="fPassword" placeholder="••••••••" autocomplete="current-password">
+      <span class="hint">Stocké localement dans Chrome, jamais envoyé à l'extérieur</span>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn-save" id="btnSave">Enregistrer</button>
+      <button class="btn-cancel" id="btnCancel">Annuler</button>
+    </div>
+  </div>
+
+</div>
+<script src="options.js"></script>
+</body>
+</html>
