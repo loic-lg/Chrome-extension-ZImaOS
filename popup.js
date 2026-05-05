@@ -97,16 +97,34 @@ async function resolveIp(server) {
 
 // ── Auth ─────────────────────────────────────────────────────────────────────
 
+const LOGIN_ENDPOINTS = [
+  (ip) => `http://${ip}:${ZIMAOS_PORT}/v1/users/login`,
+  (ip) => `http://${ip}:${ZIMAOS_PORT}/v2/users/login`,
+  (ip) => `http://${ip}:${ZIMAOS_PORT}/v1/user/login`,
+  (ip) => `http://${ip}:${ZIMAOS_PORT}/v2/user/login`,
+];
+
+function extractToken(json) {
+  return json.data?.token?.access_token
+    || json.data?.access_token
+    || json.token?.access_token
+    || json.access_token
+    || null;
+}
+
 async function login(ip, username, password) {
-  const res = await fetchTimeout(`http://${ip}:${ZIMAOS_PORT}/v1/users/login`, 5000, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username, password }),
-  });
-  const json = await res.json();
-  if (json.success !== 200) throw new Error(json.message || 'Login failed');
-  // Token is nested: data.token.access_token
-  return json.data?.token?.access_token || null;
+  const body = JSON.stringify({ username, password });
+  const headers = { 'Content-Type': 'application/json' };
+  for (const fn of LOGIN_ENDPOINTS) {
+    try {
+      const res = await fetchTimeout(fn(ip), 5000, { method: 'POST', headers, body });
+      if (!res.ok) continue;
+      const json = await res.json();
+      const token = extractToken(json);
+      if (token) return token;
+    } catch { /* try next */ }
+  }
+  return null;
 }
 
 async function getAuthToken(server, ip) {
@@ -122,6 +140,7 @@ async function getAuthToken(server, ip) {
   } catch {
     return null;
   }
+
 }
 
 // ── Data fetching ────────────────────────────────────────────────────────────
